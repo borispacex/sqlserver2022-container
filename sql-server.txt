@@ -1,0 +1,13 @@
+docker volume create BU_UC_VOL_DB_SQLSERVER_COL
+
+docker pull mcr.microsoft.com/mssql/server:2022-latest
+
+docker exec -t BU_UC_CON_DB_SQLSERVER_COL cat /car/opt/mssql/log/errorLog | grep connection
+
+docker exec -it BU_UC_CON_DB_SQLSERVER_COL "bash"
+
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P ".sysDBA99."
+
+CREATE DATABASE db_test;
+GO
+

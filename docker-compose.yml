@@ -1,0 +1,35 @@
+version: '3.8'
+volumes:
+  BU_UC_VOL_DB_SQLSERVER_COL:
+    external: true
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: BU_UC_CON_DB_SQLSERVER_COL
+    hostname: BU_UC_HOST_DB_SQLSERVER_COL
+    ports:
+      - 2001:1433
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=.sysDBA99.
+      - MSSQL_PID=Developer
+      - MSSQL_AGENT_ENABLED=true
+      - MSSQL_COLLATION=SQL_latin1_General_CP1_CS_AS_UTF8
+      - MSSQL_BACKUP_DIR=/var/opt/mssql/backup
+      - MSSQL_DATA_DIR=/var/opt/mssql/data
+      - MSSQL_LOG_DIR=/var/opt/mssql/log
+    volumes:
+      - BU_UC_VOL_DB_SQLSERVER_COL:/var/opt/mssql
+    networks:
+      monitoreo_network:
+        aliases:
+          - BU_UC_NET_DB_SQLSERVER_COL
+
+networks:
+  monitoreo_network:
+    name: BU_UC_NET_DB
+    driver: bridge
+    ipam:
+      driver: default
